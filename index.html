@@ -41,6 +41,15 @@
       </div>
 
     </div>
+<!-- SOUND TOGGLE -->
+<div id="soundToggle" class="ff-sound-toggle">🔊 Sound On</div>
+
+<!-- CAT SPRITES -->
+<div id="lunaSprite" class="ff-cat-sprite" style="background-image:url('assets/mascots/luna-sprite.png');"></div>
+<div id="midnightSprite" class="ff-cat-sprite" style="background-image:url('assets/mascots/midnight-sprite.png');"></div>
+
+<!-- YARN BALL -->
+<img id="yarnBall" class="ff-yarn" src="assets/sprites/yarnball.png" alt="yarn ball">
 
     <!-- CAT SPRITES (animated via JS) -->
     <img id="lunaSprite" class="ff-cat-sprite" src="assets/mascots/LUNATOONTEEPEE.jpg" alt="Luna sprite">
@@ -90,6 +99,49 @@
         midnight.style.transform = "";
       }
     });
+    /* -----------------------------
+   SOUND EFFECTS
+------------------------------ */
+
+const meows = [
+  new Audio("assets/audio/meow1.mp3"),
+  new Audio("assets/audio/meow2.mp3")
+];
+
+const purr = new Audio("assets/audio/purr.mp3");
+purr.loop = true;
+
+let soundEnabled = true;
+
+// Random meow
+function playMeow() {
+  if (!soundEnabled) return;
+  const sound = meows[Math.floor(Math.random() * meows.length)];
+  sound.volume = 0.6;
+  sound.play();
+}
+
+// Purring when idle
+setInterval(() => {
+  if (!soundEnabled || chaseMode) return;
+  purr.volume = 0.3;
+  purr.play();
+}, 8000);
+
+// Toggle button
+const soundToggle = document.getElementById("soundToggle");
+
+soundToggle.addEventListener("click", () => {
+  soundEnabled = !soundEnabled;
+
+  if (!soundEnabled) {
+    purr.pause();
+    soundToggle.textContent = "🔇 Sound Off";
+  } else {
+    soundToggle.textContent = "🔊 Sound On";
+    purr.play();
+  }
+});
   </script>
 
 </body>
