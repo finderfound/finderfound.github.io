@@ -983,3 +983,74 @@ body {
     max-width: 100%;
   }
 }
+/* Landing Page */
+.ff-landing-hero {
+  padding: 80px 7vw;
+  text-align: center;
+  position: relative;
+}
+
+.ff-landing-logo {
+  width: 180px;
+  margin-bottom: 20px;
+  filter: drop-shadow(0 0 20px rgba(255,255,255,0.2));
+}
+
+.ff-landing-title {
+  font-size: clamp(2.4rem, 4vw, 3.4rem);
+  margin: 0 0 10px;
+}
+
+.ff-landing-sub {
+  color: #8b90b0;
+  margin-bottom: 30px;
+}
+
+.ff-social-row {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 30px;
+}
+
+.ff-social-btn {
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: rgba(5,8,24,0.8);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: #f5f7ff;
+  text-decoration: none;
+  font-size: 0.85rem;
+}
+
+.ff-social-btn:hover {
+  background: rgba(77,242,194,0.2);
+}
+
+/* Cat Sprites */
+.ff-cat-sprite {
+  position: absolute;
+  width: 90px;
+  height: auto;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  transition: transform 0.15s linear;
+  opacity: 0.9;
+}
+
+/* Yarn Ball */
+.ff-yarn {
+  position: absolute;
+  bottom: 40px;
+  right: 40px;
+  width: 70px;
+  cursor: pointer;
+  transition: transform 0.2s ease-out;
+}
+
+.ff-yarn-active {
+  transform: scale(1.2) rotate(10deg);
+}
