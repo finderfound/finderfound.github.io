@@ -1099,3 +1099,71 @@ body {
   z-index: 999;
   font-size: 0.85rem;
 }
+/* Cats */
+.ff-cat-sprite {
+  position: fixed;
+  width: 64px;
+  height: 64px;
+  background-size: 256px 256px; /* 4 frames wide x 4 rows high */
+  image-rendering: pixelated;
+  pointer-events: auto;
+  cursor: pointer;
+  transition: transform 0.08s linear;
+  z-index: 20;
+}
+
+/* Specific sprite sheets */
+.ff-cat-luna {
+  background-image: url("assets/mascots/luna-sprite.png");
+}
+
+.ff-cat-midnight {
+  background-image: url("assets/mascots/midnight-sprite.png");
+}
+
+/* Yarn */
+.ff-yarn {
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  width: 64px;
+  height: 64px;
+  cursor: pointer;
+  image-rendering: pixelated;
+  z-index: 30;
+  transition: transform 0.2s ease-out;
+}
+
+.ff-yarn-active {
+  transform: scale(1.2) rotate(10deg);
+}
+
+/* Toggles */
+.ff-sound-toggle,
+.ff-night-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: rgba(5,8,24,0.85);
+  border: 1px solid rgba(255,255,255,0.25);
+  padding: 6px 12px;
+  border-radius: 999px;
+  color: #f5f7ff;
+  cursor: pointer;
+  z-index: 40;
+  font-size: 0.8rem;
+}
+
+.ff-night-toggle {
+  right: 130px;
+}
+
+/* Night mode */
+.ff-night {
+  background: radial-gradient(circle at top, #050816 0, #02030a 40%, #000 100%);
+}
+
+.ff-night .ff-cat-luna,
+.ff-night .ff-cat-midnight {
+  filter: drop-shadow(0 0 6px rgba(0,255,255,0.7));
+}
