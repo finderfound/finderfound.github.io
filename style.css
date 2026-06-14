@@ -1027,84 +1027,16 @@ body {
 .ff-social-btn:hover {
   background: rgba(77,242,194,0.2);
 }
+/* ------------------------------
+   CLEAN CAT + YARN + TOGGLES CSS
+------------------------------ */
 
-/* Cat Sprites */
-.ff-cat-sprite {
-  position: absolute;
-  width: 90px;
-  height: auto;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-  transition: transform 0.15s linear;
-  opacity: 0.9;
-}
-
-/* Yarn Ball */
-.ff-yarn {
-  position: absolute;
-  bottom: 40px;
-  right: 40px;
-  width: 70px;
-  cursor: pointer;
-  transition: transform 0.2s ease-out;
-}
-
-.ff-yarn-active {
-  transform: scale(1.2) rotate(10deg);
-}
-/* CAT SPRITE SHEET ANIMATION */
-.ff-cat-sprite {
-  position: absolute;
-  width: 120px;
-  height: 120px;
-  background-size: 400% 100%; /* 4 frames horizontally */
-  animation: ff-walk 0.6s steps(4) infinite;
-  pointer-events: none;
-  opacity: 0.95;
-  transition: transform 0.1s linear;
-}
-
-@keyframes ff-walk {
-  from { background-position: 0% 0; }
-  to   { background-position: -400% 0; }
-}
-
-/* Yarn ball */
-.ff-yarn {
-  position: absolute;
-  bottom: 40px;
-  right: 40px;
-  width: 70px;
-  cursor: pointer;
-  transition: transform 0.2s ease-out;
-}
-
-.ff-yarn-active {
-  transform: scale(1.2) rotate(10deg);
-}
-
-/* Sound toggle */
-.ff-sound-toggle {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  background: rgba(5,8,24,0.8);
-  border: 1px solid rgba(255,255,255,0.2);
-  padding: 8px 14px;
-  border-radius: 999px;
-  color: #f5f7ff;
-  cursor: pointer;
-  z-index: 999;
-  font-size: 0.85rem;
-}
-/* Cats */
+/* Cat sprite base */
 .ff-cat-sprite {
   position: fixed;
   width: 64px;
   height: 64px;
-  background-size: 256px 256px; /* 4 frames wide x 4 rows high */
+  background-size: 256px 256px; /* 4 frames x 4 rows */
   image-rendering: pixelated;
   pointer-events: auto;
   cursor: pointer;
@@ -1112,16 +1044,17 @@ body {
   z-index: 20;
 }
 
-/* Specific sprite sheets */
+/* Luna sprite sheet */
 .ff-cat-luna {
   background-image: url("assets/mascots/luna-sprite.png");
 }
 
+/* Midnight sprite sheet */
 .ff-cat-midnight {
   background-image: url("assets/mascots/midnight-sprite.png");
 }
 
-/* Yarn */
+/* Yarn ball */
 .ff-yarn {
   position: fixed;
   bottom: 40px;
@@ -1138,7 +1071,7 @@ body {
   transform: scale(1.2) rotate(10deg);
 }
 
-/* Toggles */
+/* Sound + Night toggles */
 .ff-sound-toggle,
 .ff-night-toggle {
   position: fixed;
@@ -1162,6 +1095,12 @@ body {
 .ff-night {
   background: radial-gradient(circle at top, #050816 0, #02030a 40%, #000 100%);
 }
+
+.ff-night .ff-cat-luna,
+.ff-night .ff-cat-midnight {
+  filter: drop-shadow(0 0 6px rgba(0,255,255,0.7));
+}
+
 
 .ff-night .ff-cat-luna,
 .ff-night .ff-cat-midnight {
