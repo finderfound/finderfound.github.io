@@ -4,344 +4,70 @@
   <meta charset="UTF-8" />
   <title>finderfound // art universe</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Art, music, Ordinals, and mascots from the finderfound neon forest." />
   <link rel="stylesheet" href="style.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600&display=swap" rel="stylesheet" />
 </head>
-<body class="ff-body">
-  <div class="ff-scanlines"></div>
 
-  <!-- HEADER -->
-  <header class="ff-header">
-    <div class="ff-logo">
-      <span class="ff-logo-mark">☠</span>
-      <span class="ff-logo-text">finderfound</span>
+<body class="ff-body">
+
+  <!-- HEADER (optional, matches homepage) -->
+  <header class="site-header">
+    <div class="logo">
+      <span class="logo-mark">✦</span>
+      <span class="logo-text">finderfound</span>
     </div>
-    <nav class="ff-main-nav">
-      <a href="/">home</a>
-      <a href="#ff-top">art universe</a>
-      <a href="https://linktr.ee/Finderfound" target="_blank" rel="noopener">linktree</a>
+    <nav class="nav">
+      <a href="index.html">home</a>
+      <a href="art.html">art</a>
     </nav>
   </header>
 
-  <!-- FLOATING NEON TABS -->
-  <div class="ff-tab-pill" id="ff-tab-pill">
-    <button class="ff-tab-btn active" data-tab="my-art">My Art</button>
-    <button class="ff-tab-btn" data-tab="collected">Collected</button>
-    <button class="ff-tab-btn" data-tab="music">Music</button>
-    <button class="ff-tab-btn" data-tab="ordinals">Ordinals ₿</button>
-    <button class="ff-tab-btn" data-tab="mascots">Mascots</button>
-    <button class="ff-tab-btn" data-tab="all-works">All Works</button>
+  <!-- IMMERSIVE ART GALLERY -->
+  <section class="ff-art-immersive">
+
+    <!-- GALLERY GRID -->
+    <div class="ff-art-grid">
+
+      <!-- GALLERY ITEM -->
+      <a href="#" class="ff-art-item">
+        <img src="assets/art/placeholder1.png" alt="">
+        <div class="ff-art-hidden">
+          <h3>Title Placeholder</h3>
+          <p>Description placeholder</p>
+        </div>
+      </a>
+
+      <a href="#" class="ff-art-item">
+        <img src="assets/art/placeholder2.png" alt="">
+        <div class="ff-art-hidden">
+          <h3>Title Placeholder</h3>
+          <p>Description placeholder</p>
+        </div>
+      </a>
+
+      <a href="#" class="ff-art-item">
+        <img src="assets/art/placeholder3.png" alt="">
+        <div class="ff-art-hidden">
+          <h3>Title Placeholder</h3>
+          <p>Description placeholder</p>
+        </div>
+      </a>
+
+      <!-- Add as many as you want -->
+    </div>
+
+  </section>
+
+  <!-- GLOBAL OVERLAY (cats + yarn) -->
+  <div class="ff-overlay-layer">
+    <div id="soundToggle" class="ff-sound-toggle">🔊 Sound On</div>
+    <div id="nightToggle" class="ff-night-toggle">🌙 Night Off</div>
+
+    <div id="lunaSprite" class="ff-cat-sprite ff-cat-luna"></div>
+    <div id="midnightSprite" class="ff-cat-sprite ff-cat-midnight"></div>
+
+    <img id="yarnBall" class="ff-yarn" src="assets/sprites/yarnball.png" alt="yarn ball">
   </div>
 
-  <main id="ff-top">
-    <!-- HERO -->
-    <section class="ff-hero">
-      <div class="ff-hero-content">
-        <p class="ff-eyebrow">nature x tech x skulls</p>
-        <h1>finderfound <span class="ff-accent">art universe</span></h1>
-        <p class="ff-hero-subtitle">
-          Original works, collected pieces, music, Ordinals, and mascots from the neon forest. Built on chains, coffee, and curiosity.
-        </p>
-        <div class="ff-hero-actions">
-          <a href="#ff-my-art" class="ff-btn ff-primary">enter my art</a>
-          <a href="#ff-ordinals" class="ff-btn ff-ghost">visit the Bitcoin vault</a>
-        </div>
-      </div>
-      <div class="ff-hero-orbit">
-        <div class="ff-orb ff-orb-shadow">✌</div>
-        <div class="ff-orb ff-orb-luna">🐾</div>
-        <div class="ff-orb ff-orb-midnight">🐾</div>
-      </div>
-    </section>
-
-    <!-- FILTER + SEARCH (GLOBAL) -->
-    <section class="ff-filters">
-      <div class="ff-filter-row">
-        <div class="ff-filter-tags">
-          <span class="ff-filter-label">tags:</span>
-          <button class="ff-chip">cute</button>
-          <button class="ff-chip">creepy</button>
-          <button class="ff-chip">simple</button>
-          <button class="ff-chip">fine</button>
-          <button class="ff-chip">character</button>
-          <button class="ff-chip">scapes</button>
-          <button class="ff-chip">nature</button>
-          <button class="ff-chip">hand made</button>
-          <button class="ff-chip">generated</button>
-          <button class="ff-chip">coffee art</button>
-          <button class="ff-chip">anime</button>
-          <button class="ff-chip">skull art</button>
-          <button class="ff-chip">cats</button>
-          <button class="ff-chip">glitchwave</button>
-        </div>
-        <div class="ff-search-wrap">
-          <input type="text" id="ff-search" placeholder="search by title, tag, or vibe…" />
-        </div>
-      </div>
-    </section>
-
-    <!-- TAB: MY ART -->
-    <section class="ff-section ff-tab-section" id="ff-my-art" data-tab="my-art">
-      <div class="ff-section-header">
-        <h2>My Art</h2>
-        <p>Original works like coffee art, silhouettes, glitchwave pieces, and character scapes.</p>
-      </div>
-      <div class="ff-grid">
-        <!-- Example cards – replace with real data -->
-        <article class="ff-card" data-tags="coffee art cute hand made nature">
-          <div class="ff-card-chain ff-chain-eth">ETH</div>
-          <h3>Coffee Art for Everyone #01</h3>
-          <p class="ff-tagline">coffee art · cute · hand made</p>
-          <p>
-            One of the pieces from the “Coffee Art for Everyone – Finderfound’s Art Forever” collection. Warm tones, playful forms, and a handmade feel.
-          </p>
-          <a href="https://opensea.io/collection/coffee-art-for-everyone-finderfound-s-art-forever" target="_blank" rel="noopener" class="ff-card-link">
-            view collection ↗
-          </a>
-        </article>
-
-        <article class="ff-card" data-tags="shadow character glitchwave simple generated">
-          <div class="ff-card-chain ff-chain-eth">ETH</div>
-          <h3>Shadow Peace Sigil</h3>
-          <p class="ff-tagline">character · glitchwave · simple</p>
-          <p>
-            The iconic shadow silhouette with hat and peace sign, remixed into neon glitchwave. This image anchors the finderfound logo and identity.
-          </p>
-          <a href="#" class="ff-card-link">view full image ↗</a>
-        </article>
-
-        <article class="ff-card" data-tags="anime character music glitchwave generated">
-          <div class="ff-card-chain ff-chain-eth">ETH</div>
-          <h3>Vegeta Guitar Fusion</h3>
-          <p class="ff-tagline">anime · character · music</p>
-          <p>
-            Anime energy meets guitar riffs in a colorful fusion piece. Perfect bridge between visual art and sound.
-          </p>
-          <a href="#" class="ff-card-link">view artwork ↗</a>
-        </article>
-      </div>
-    </section>
-
-    <!-- TAB: COLLECTED -->
-    <section class="ff-section ff-tab-section" id="ff-collected" data-tab="collected">
-      <div class="ff-section-header">
-        <h2>Collected Art</h2>
-        <p>Pieces I’ve collected that resonate with the finderfound vibe—cute, creepy, simple, fine, and everything in between.</p>
-      </div>
-      <div class="ff-grid">
-        <article class="ff-card" data-tags="fine character nature">
-          <div class="ff-card-chain ff-chain-eth">ETH</div>
-          <h3>Collected Piece #1</h3>
-          <p class="ff-tagline">fine · character · nature</p>
-          <p>
-            A curated work from my OpenSea profile that aligns with the neon forest aesthetic and builder spirit.
-          </p>
-          <a href="https://opensea.io/Finderfound" target="_blank" rel="noopener" class="ff-card-link">
-            view collected works ↗
-          </a>
-        </article>
-
-        <article class="ff-card" data-tags="creepy skull art glitchwave">
-          <div class="ff-card-chain ff-chain-eth">ETH</div>
-          <h3>Skull Signal</h3>
-          <p class="ff-tagline">creepy · skull art</p>
-          <p>
-            A darker, more cryptic piece that leans into skull symbolism and glitchwave distortion.
-          </p>
-          <a href="https://opensea.io/Finderfound" target="_blank" rel="noopener" class="ff-card-link">
-            explore profile ↗
-          </a>
-        </article>
-      </div>
-    </section>
-
-    <!-- TAB: MUSIC -->
-    <section class="ff-section ff-tab-section" id="ff-music" data-tab="music">
-      <div class="ff-section-header">
-        <h2>Music</h2>
-        <p>Tracks, videos, and sound experiments that live alongside the visual art.</p>
-      </div>
-      <div class="ff-grid ff-grid-music">
-        <article class="ff-card" data-tags="music character glitchwave">
-          <h3>Music Video</h3>
-          <p class="ff-tagline">video · guitar · glitchwave</p>
-          <p>
-            A music video that blends live performance with stylized visuals and anime‑adjacent energy.
-          </p>
-          <a href="https://www.youtube.com/watch?v=a0SQNHxJTK4&list=RDa0SQNHxJTK4&start_radio=1" target="_blank" rel="noopener" class="ff-card-link">
-            watch on YouTube ↗
-          </a>
-        </article>
-
-        <article class="ff-card" data-tags="music generated">
-          <h3>Suno Playlist</h3>
-          <p class="ff-tagline">playlist · generated · experimental</p>
-          <p>
-            A collection of songs created with Suno—exploring different moods, genres, and sonic textures.
-          </p>
-          <a href="https://suno.com/playlist/d9df5852-46f1-4bad-b609-e502d91402e9" target="_blank" rel="noopener" class="ff-card-link">
-            listen on Suno ↗
-          </a>
-        </article>
-      </div>
-    </section>
-
-    <!-- TAB: ORDINALS -->
-    <section class="ff-section ff-tab-section" id="ff-ordinals" data-tab="ordinals">
-      <div class="ff-section-header ff-ordinals-header">
-        <h2>Ordinals ₿ Bitcoin Vault</h2>
-        <p>
-          Bitcoin as digital stone—inscriptions carved into blocks, glowing inside the neon forest. Hybrid of sacred permanence and cyberpunk circuitry.
-        </p>
-      </div>
-      <div class="ff-ordinals-lore">
-        <p>
-          In the finderfound universe, Bitcoin is the oldest tree. Its rings are blocks, its fruit are inscriptions, and its roots run under every chain.
-        </p>
-      </div>
-      <div class="ff-grid ff-grid-ordinals">
-        <article class="ff-card ff-card-ord" data-tags="scapes nature creepy generated">
-          <div class="ff-card-chain ff-chain-btc">BTC</div>
-          <h3>Ordinals Gallery</h3>
-          <p class="ff-tagline">Bitcoin · Ordinals · vault</p>
-          <p>
-            A gallery of Bitcoin Ordinals tied to my wallet. Each inscription is a permanent mark in the digital stone.
-          </p>
-          <a href="https://ord.net/profile/wallet/bc1pe7645efm6jsu59vpa3kq2stjygef27sgyrqx93688gm4xzem6vzq30x42w" target="_blank" rel="noopener" class="ff-card-link">
-            open Ordinals gallery ↗
-          </a>
-        </article>
-      </div>
-    </section>
-
-    <!-- TAB: MASCOTS -->
-    <section class="ff-section ff-tab-section" id="ff-mascots" data-tab="mascots">
-      <div class="ff-section-header">
-        <h2>Mascots: Luna & Midnight</h2>
-        <p>Cats as neon spirits, guardians of the art universe.</p>
-      </div>
-      <div class="ff-grid ff-grid-mascots">
-        <article class="ff-card" data-tags="cats cute nature">
-          <h3>Luna</h3>
-          <p class="ff-tagline">cute · nature · guardian</p>
-          <p>
-            White‑gray cat with a soft, curious presence. In the neon forest, Luna glows cyan and watches over the lighter, playful works.
-          </p>
-        </article>
-
-        <article class="ff-card" data-tags="cats creepy skull art">
-          <h3>Midnight</h3>
-          <p class="ff-tagline">creepy · skull art · guardian</p>
-          <p>
-            Dark cat with a mysterious vibe. Midnight glows magenta and guards the deeper, stranger, more cryptic pieces.
-          </p>
-        </article>
-      </div>
-    </section>
-
-    <!-- TAB: ALL WORKS -->
-    <section class="ff-section ff-tab-section" id="ff-all-works" data-tab="all-works">
-      <div class="ff-section-header">
-        <h2>All Works</h2>
-        <p>A combined view of everything—created, collected, musical, and inscribed.</p>
-      </div>
-      <p class="ff-note">
-        This view can later be wired to pull live data from OpenSea, Ordinals, and other sources. For now, it mirrors highlights from the sections above.
-      </p>
-      <div class="ff-grid">
-        <!-- You can duplicate key cards from other sections here -->
-        <article class="ff-card" data-tags="coffee art cute hand made nature">
-          <div class="ff-card-chain ff-chain-eth">ETH</div>
-          <h3>Coffee Art for Everyone #01</h3>
-          <p class="ff-tagline">coffee art · cute · hand made</p>
-          <p>Highlighted from My Art.</p>
-        </article>
-
-        <article class="ff-card" data-tags="music generated">
-          <div class="ff-card-chain ff-chain-none">MIXED</div>
-          <h3>Suno Playlist</h3>
-          <p class="ff-tagline">playlist · generated</p>
-          <p>Highlighted from Music.</p>
-        </article>
-
-        <article class="ff-card" data-tags="scapes nature generated">
-          <div class="ff-card-chain ff-chain-btc">BTC</div>
-          <h3>Ordinals Gallery</h3>
-          <p class="ff-tagline">Bitcoin · Ordinals</p>
-          <p>Highlighted from Ordinals.</p>
-        </article>
-      </div>
-    </section>
-  </main>
-
-  <!-- FOOTER -->
-  <footer class="ff-footer">
-    <div class="ff-footer-inner">
-      <p>© <span id="ff-year"></span> finderfound · art, chains, cats, and curiosity.</p>
-      <div class="ff-footer-links">
-        <a href="/">home</a>
-        <a href="https://linktr.ee/Finderfound" target="_blank" rel="noopener">linktree</a>
-        <a href="#ff-top">back to top ↑</a>
-      </div>
-    </div>
-  </footer>
-
-  <script>
-    // year
-    document.getElementById('ff-year').textContent = new Date().getFullYear();
-
-    // tab switching
-    const tabButtons = document.querySelectorAll('.ff-tab-btn');
-    const tabSections = document.querySelectorAll('.ff-tab-section');
-
-    function setActiveTab(tab) {
-      tabButtons.forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.tab === tab);
-      });
-      tabSections.forEach(sec => {
-        sec.style.display = sec.dataset.tab === tab ? 'block' : 'none';
-      });
-    }
-
-    tabButtons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        setActiveTab(btn.dataset.tab);
-        const top = document.getElementById('ff-top');
-        window.scrollTo({ top: top.offsetTop + 80, behavior: 'smooth' });
-      });
-    });
-
-    // initial tab
-    setActiveTab('my-art');
-
-    // simple search filter (client-side, tag-based)
-    const searchInput = document.getElementById('ff-search');
-    searchInput.addEventListener('input', () => {
-      const query = searchInput.value.toLowerCase();
-      tabSections.forEach(sec => {
-        if (sec.style.display === 'block') {
-          const cards = sec.querySelectorAll('.ff-card');
-          cards.forEach(card => {
-            const text = card.innerText.toLowerCase();
-            card.style.opacity = text.includes(query) ? '1' : '0.25';
-          });
-        }
-      });
-    });
-
-    // sticky pill behavior
-    const pill = document.getElementById('ff-tab-pill');
-    const pillOffset = pill.offsetTop;
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > pillOffset + 20) {
-        pill.classList.add('ff-tab-pill-sticky');
-      } else {
-        pill.classList.remove('ff-tab-pill-sticky');
-      }
-    });
-  </script>
+  <script src="cats.js"></script>
 </body>
 </html>
