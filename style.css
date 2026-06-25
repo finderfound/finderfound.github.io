@@ -359,6 +359,52 @@ body {
     text-align: center;
   }
 }
+/* ------------------------------
+   IMMERSIVE ART GALLERY
+------------------------------ */
+
+.ff-art-immersive {
+  padding: 40px 4vw;
+  position: relative;
+  z-index: 1;
+}
+
+.ff-art-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 22px;
+}
+
+.ff-art-item {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-soft);
+  background: rgba(5,8,24,0.8);
+  box-shadow: var(--shadow-soft);
+  cursor: pointer;
+}
+
+.ff-art-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease-out, opacity 0.4s ease-out;
+}
+
+/* Hover zoom effect */
+.ff-art-item:hover img {
+  transform: scale(1.06);
+  opacity: 0.92;
+}
+
+/* Hidden descriptors (still in DOM for future use) */
+.ff-art-hidden {
+  display: none;
+}
+
 /* FINAL OVERRIDE — GUARANTEES JS CONTROLS CAT POSITION */
 .ff-cat-sprite {
   position: fixed !important;
