@@ -374,3 +374,13 @@ body {
   pointer-events: auto !important;
   z-index: 20 !important;
 }
+.ff-overlay-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 50;
+}
+
+.ff-overlay-layer > * {
+  pointer-events: auto;
+}
