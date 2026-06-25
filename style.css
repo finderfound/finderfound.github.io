@@ -1100,9 +1100,3 @@ body {
 .ff-night .ff-cat-midnight {
   filter: drop-shadow(0 0 6px rgba(0,255,255,0.7));
 }
-
-
-.ff-night .ff-cat-luna,
-.ff-night .ff-cat-midnight {
-  filter: drop-shadow(0 0 6px rgba(0,255,255,0.7));
-}
