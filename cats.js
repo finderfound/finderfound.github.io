@@ -1,4 +1,5 @@
 /* ---------- CONFIG ---------- */
+document.addEventListener("DOMContentLoaded", () => {
 
 const cats = {
   luna: {
@@ -286,3 +287,4 @@ function loop(now) {
 
 startPurr();
 requestAnimationFrame(loop);
+}); // end DOMContentLoaded
