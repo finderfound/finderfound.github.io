@@ -4,8 +4,8 @@ document.addEventListener("DOMContentLoaded", () => {
 const frameCount = 4;
 const frameSize = 64;
 
-/* Adjusted offset so cats appear on-screen */
-const visualOffsetY = -70;
+/* Corrected offset based on actual sprite padding */
+const visualOffsetY = -110;
 
 /* ---------- CAT DEFINITIONS ---------- */
 const cats = {
@@ -21,7 +21,7 @@ const cats = {
     wanderCooldown: 0,
     jitter: 0,
     x: 200,
-    y: 140,   // visible spawn
+    y: 260,   // calibrated spawn (visible on screen)
     state: "idle"
   },
   midnight: {
@@ -36,7 +36,7 @@ const cats = {
     wanderCooldown: 0,
     jitter: 0,
     x: 400,
-    y: 140,   // visible spawn
+    y: 260,   // calibrated spawn (visible on screen)
     state: "idle"
   }
 };
@@ -92,7 +92,7 @@ function setSpriteFrame(cat, row, frame) {
 
 /* ---------- NATURAL WANDER LOGIC ---------- */
 function pickNewWanderTarget(cat) {
-  const padding = 160;
+  const padding = 200; // tuned for your layout
 
   cat.targetX = Math.random() * (window.innerWidth - padding * 2) + padding;
   cat.targetY = Math.random() * (window.innerHeight - padding * 2) + padding;
@@ -150,9 +150,9 @@ function moveCat(catKey, dt) {
     cat.state = "idle";
   }
 
-  /* ---------- FIXED SCREEN BOUNDS ---------- */
-  const topBound = 60;                         // calibrated
-  const bottomBound = window.innerHeight - 160;
+  /* ---------- FINAL CALIBRATED SCREEN BOUNDS ---------- */
+  const topBound = 140;                         // keeps visible sprite on screen
+  const bottomBound = window.innerHeight - 200; // prevents sinking
   const leftBound = 0;
   const rightBound = window.innerWidth - 64;
 
