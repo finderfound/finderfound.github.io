@@ -1,4 +1,4 @@
-/* ---------- NATURAL CAT ENGINE (CALIBRATED) ---------- */
+/* ---------- NATURAL CAT ENGINE (CALIBRATED FOR FINDERFOUND.COM) ---------- */
 document.addEventListener("DOMContentLoaded", () => {
 
 /* ---------- CONFIG ---------- */
@@ -6,8 +6,9 @@ const frameCount = 4;
 const frameSize = 64;
 
 /* Visual offset to counter sprite padding */
-const visualOffsetY = -90;   // calibrated sweet spot
+const visualOffsetY = -90;
 
+/* ---------- CAT DEFINITIONS ---------- */
 const cats = {
   luna: {
     el: document.getElementById("lunaSprite"),
@@ -21,7 +22,7 @@ const cats = {
     wanderCooldown: 0,
     jitter: 0,
     x: 200,
-    y: 200,   // calibrated spawn height
+    y: 40,     // SPAWN ABOVE HERO
     state: "idle"
   },
   midnight: {
@@ -36,7 +37,7 @@ const cats = {
     wanderCooldown: 0,
     jitter: 0,
     x: 400,
-    y: 200,   // calibrated spawn height
+    y: 40,     // SPAWN ABOVE HERO
     state: "idle"
   }
 };
@@ -71,4 +72,24 @@ function playMeow() {
 
 function startPurr() {
   if (!soundEnabled) return;
-  purr.volume =
+  purr.volume = 0.35;
+  if (purr.paused) purr.play();
+}
+
+function stopPurr() {
+  purr.pause();
+}
+
+/* ---------- SPRITE ANIMATION ---------- */
+let animFrame = 0;
+let frameTimer = 0;
+const frameInterval = 0.12;
+
+function setSpriteFrame(cat, row, frame) {
+  const x = -frame * frameSize;
+  const y = -row * frameSize;
+  cat.el.style.backgroundPosition = `${x}px ${y}px`;
+}
+
+/* ---------- NATURAL WANDER LOGIC ---------- */
+function pickNewWanderTarget(cat
