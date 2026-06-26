@@ -6,7 +6,7 @@ const frameCount = 4;
 const frameSize = 64;
 
 /* Visual offset to lift the visible sprite upward */
-const visualOffsetY = -48;   // adjust between -40 and -60 depending on sprite padding
+const visualOffsetY = -140;   // adjust between -40 and -60 depending on sprite padding
 
 const cats = {
   luna: {
