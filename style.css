@@ -200,6 +200,11 @@ body {
   z-index: 20;
 }
 
+/* Force cats above all other elements */
+.ff-cat-sprite {
+  z-index: 9999 !important;
+}
+
 .ff-cat-luna {
   background-image: url("assets/mascots/luna-sprite.png");
 }
@@ -229,7 +234,7 @@ body {
 .ff-sound-toggle,
 .ff-night-toggle {
   position: fixed;
-  top: 20px;
+  top: 90px;
   right: 20px;
   background: rgba(5,8,24,0.85);
   border: 1px solid rgba(255,255,255,0.25);
