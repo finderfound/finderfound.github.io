@@ -1,31 +1,43 @@
-/* ---------- CONFIG ---------- */
+/* ---------- NATURAL CAT ENGINE ---------- */
 document.addEventListener("DOMContentLoaded", () => {
+
+/* ---------- CONFIG ---------- */
+const frameCount = 4;
+const frameSize = 64;
 
 const cats = {
   luna: {
-    el: null,
+    el: document.getElementById("lunaSprite"),
     rowWalk: 0,
     rowIdle: 1,
     rowJump: 2,
     rowPet: 3,
-    speed: 0.25,
-    chaseSpeed: 0.45,
-    personality: "gentle"
+    speed: 90,          // px per second
+    chaseSpeed: 150,
+    wanderTimer: 0,
+    wanderCooldown: 0,
+    jitter: 0,
+    x: window.innerWidth * 0.3,
+    y: window.innerHeight * 0.25,
+    state: "idle"
   },
   midnight: {
-    el: null,
+    el: document.getElementById("midnightSprite"),
     rowWalk: 0,
     rowIdle: 1,
     rowJump: 2,
     rowPet: 3,
-    speed: 0.45,
-    chaseSpeed: 0.75,
-    personality: "mischievous"
+    speed: 120,
+    chaseSpeed: 200,
+    wanderTimer: 0,
+    wanderCooldown: 0,
+    jitter: 0,
+    x: window.innerWidth * 0.6,
+    y: window.innerHeight * 0.25,
+    state: "idle"
   }
 };
 
-const frameCount = 4;
-const frameSize = 64;
 let chaseMode = false;
 let randomChase = false;
 let mousePos = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
@@ -33,22 +45,11 @@ let soundEnabled = true;
 let nightMode = false;
 
 /* ---------- ELEMENTS ---------- */
-
 const yarn = document.getElementById("yarnBall");
 const soundToggle = document.getElementById("soundToggle");
 const nightToggle = document.getElementById("nightToggle");
 
-cats.luna.el = document.getElementById("lunaSprite");
-cats.midnight.el = document.getElementById("midnightSprite");
-
-/* Initial positions (higher on screen) */
-cats.luna.x = window.innerWidth * 0.3;
-cats.luna.y = window.innerHeight * 0.35;
-cats.midnight.x = window.innerWidth * 0.6;
-cats.midnight.y = window.innerHeight * 0.35;
-
 /* ---------- AUDIO ---------- */
-
 const meows = [
   new Audio("assets/audio/meow1.mp3"),
   new Audio("assets/audio/meow2.mp3")
@@ -76,7 +77,6 @@ function stopPurr() {
 }
 
 /* ---------- SPRITE ANIMATION ---------- */
-
 let animFrame = 0;
 let frameTimer = 0;
 const frameInterval = 0.12;
@@ -87,30 +87,63 @@ function setSpriteFrame(cat, row, frame) {
   cat.el.style.backgroundPosition = `${x}px ${y}px`;
 }
 
-/* ---------- MOVEMENT / AI ---------- */
+/* ---------- NATURAL WANDER LOGIC ---------- */
+function pickNewWanderTarget(cat) {
+  const padding = 120;
 
+  cat.targetX = Math.random() * (window.innerWidth - padding * 2) + padding;
+  cat.targetY = Math.random() * (window.innerHeight - padding * 2) + padding;
+
+  // Add slight directional bias so movement isn't robotic
+  cat.jitter = (Math.random() - 0.5) * 40;
+
+  // Wander cooldown so they pause sometimes
+  cat.wanderCooldown = 0.8 + Math.random() * 1.4;
+}
+
+/* ---------- MOVEMENT ---------- */
 function moveCat(catKey, dt) {
   const cat = cats[catKey];
 
-  let targetX = cat.targetX;
-  let targetY = cat.targetY;
+  let targetX, targetY, speed;
 
-  let speed;
+  /* --- CHASE MODE --- */
+  if (chaseMode) {
+    // Mostly chase the yarn
+    if (Math.random() < 0.85) {
+      targetX = mousePos.x;
+      targetY = mousePos.y;
+    } else {
+      // Occasionally dart away or sideways
+      targetX = mousePos.x + (Math.random() - 0.5) * 300;
+      targetY = mousePos.y + (Math.random() - 0.5) * 300;
+    }
+    speed = cat.chaseSpeed;
+  }
 
-  if (chaseMode || randomChase) {
+  /* --- RANDOM CHASE BURSTS (Midnight personality) --- */
+  else if (randomChase) {
     targetX = mousePos.x;
     targetY = mousePos.y;
     speed = cat.chaseSpeed;
-  } else {
-    speed = cat.speed;
-    if (!cat.targetX || Math.random() < 0.005) {
-      cat.targetX = Math.random() * (window.innerWidth - 100) + 50;
-      cat.targetY = Math.random() * (window.innerHeight - 150) + 80;
-    }
-    targetX = cat.targetX;
-    targetY = cat.targetY;
   }
 
+  /* --- NATURAL WANDERING --- */
+  else {
+    speed = cat.speed;
+
+    cat.wanderTimer += dt;
+
+    if (!cat.targetX || cat.wanderTimer > cat.wanderCooldown) {
+      pickNewWanderTarget(cat);
+      cat.wanderTimer = 0;
+    }
+
+    targetX = cat.targetX + cat.jitter;
+    targetY = cat.targetY + cat.jitter;
+  }
+
+  /* --- MOVEMENT CALCULATION --- */
   const dx = targetX - cat.x;
   const dy = targetY - cat.y;
   const dist = Math.hypot(dx, dy);
@@ -123,14 +156,21 @@ function moveCat(catKey, dt) {
     cat.state = "idle";
   }
 
-  cat.x = Math.max(0, Math.min(window.innerWidth - frameSize, cat.x));
-  cat.y = Math.max(0, Math.min(window.innerHeight - frameSize, cat.y));
+  /* --- KEEP CATS ON SCREEN --- */
+  const topBound = 40;
+  const bottomBound = window.innerHeight - 120;
+  const leftBound = 20;
+  const rightBound = window.innerWidth - 84;
 
-  cat.el.style.transform = `translate(${cat.x}px, ${cat.y}px) scaleX(${dx < 0 ? -1 : 1})`;
+  cat.x = Math.max(leftBound, Math.min(rightBound, cat.x));
+  cat.y = Math.max(topBound, Math.min(bottomBound, cat.y));
+
+  /* --- APPLY TRANSFORM --- */
+  cat.el.style.transform =
+    `translate(${cat.x}px, ${cat.y}px) scaleX(${dx < 0 ? -1 : 1})`;
 }
 
-/* ---------- COLLISION DETECTION ---------- */
-
+/* ---------- COLLISION ---------- */
 function handleCollision() {
   const a = cats.luna;
   const b = cats.midnight;
@@ -150,10 +190,10 @@ function handleCollision() {
     const dy = b.y - a.y || 1;
     const dist = Math.hypot(dx, dy);
 
-    a.x -= (dx / dist) * 5;
-    a.y -= (dy / dist) * 5;
-    b.x += (dx / dist) * 5;
-    b.y += (dy / dist) * 5;
+    a.x -= (dx / dist) * 10;
+    a.y -= (dy / dist) * 10;
+    b.x += (dx / dist) * 10;
+    b.y += (dy / dist) * 10;
 
     a.state = "jump";
     b.state = "jump";
@@ -161,8 +201,7 @@ function handleCollision() {
   }
 }
 
-/* ---------- PET INTERACTION ---------- */
-
+/* ---------- PETTING ---------- */
 function setupPet(catKey) {
   const cat = cats[catKey];
   cat.el.addEventListener("mouseenter", () => {
@@ -177,8 +216,7 @@ function setupPet(catKey) {
 setupPet("luna");
 setupPet("midnight");
 
-/* ---------- YARN / CHASE MODE ---------- */
-
+/* ---------- YARN MODE ---------- */
 yarn.addEventListener("click", () => {
   chaseMode = !chaseMode;
 
@@ -194,7 +232,7 @@ yarn.addEventListener("click", () => {
   }
 });
 
-/* Random chase bursts for Midnight */
+/* Midnight random chase bursts */
 setInterval(() => {
   if (chaseMode) return;
   if (Math.random() < 0.25) {
@@ -204,8 +242,7 @@ setInterval(() => {
   }
 }, 6000);
 
-/* ---------- SOUND TOGGLE ---------- */
-
+/* ---------- SOUND ---------- */
 soundToggle.addEventListener("click", () => {
   soundEnabled = !soundEnabled;
   if (!soundEnabled) {
@@ -217,8 +254,7 @@ soundToggle.addEventListener("click", () => {
   }
 });
 
-/* ---------- NIGHT MODE + KONAMI ---------- */
-
+/* ---------- NIGHT MODE ---------- */
 nightToggle.addEventListener("click", toggleNight);
 
 function toggleNight() {
@@ -227,37 +263,13 @@ function toggleNight() {
   nightToggle.textContent = nightMode ? "🌙 Night On" : "🌙 Night Off";
 }
 
-const konamiSeq = [
-  "ArrowUp","ArrowUp","ArrowDown","ArrowDown",
-  "ArrowLeft","ArrowRight","ArrowLeft","ArrowRight","b","a"
-];
-let konamiIndex = 0;
-
-document.addEventListener("keydown", (e) => {
-  const key = e.key;
-  if (key === konamiSeq[konamiIndex]) {
-    konamiIndex++;
-    if (konamiIndex === konamiSeq.length) {
-      konamiIndex = 0;
-      if (!nightMode) toggleNight();
-      cats.luna.state = "jump";
-      cats.midnight.state = "jump";
-      playMeow();
-    }
-  } else {
-    konamiIndex = 0;
-  }
-});
-
 /* ---------- MOUSE TRACKING ---------- */
-
 document.addEventListener("mousemove", (e) => {
   mousePos.x = e.clientX;
   mousePos.y = e.clientY;
 });
 
 /* ---------- MAIN LOOP ---------- */
-
 let lastTime = performance.now();
 
 function loop(now) {
@@ -287,4 +299,5 @@ function loop(now) {
 
 startPurr();
 requestAnimationFrame(loop);
+
 }); // end DOMContentLoaded
