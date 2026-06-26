@@ -1,12 +1,11 @@
-/* ---------- NATURAL CAT ENGINE (CALIBRATED FOR FINDERFOUND.COM) ---------- */
+/* ---------- NATURAL CAT ENGINE (FINAL CALIBRATED VERSION) ---------- */
 document.addEventListener("DOMContentLoaded", () => {
 
-/* ---------- CONFIG ---------- */
 const frameCount = 4;
 const frameSize = 64;
 
-/* Visual offset to counter sprite padding */
-const visualOffsetY = -90;
+/* Adjusted offset so cats appear on-screen */
+const visualOffsetY = -70;
 
 /* ---------- CAT DEFINITIONS ---------- */
 const cats = {
@@ -22,7 +21,7 @@ const cats = {
     wanderCooldown: 0,
     jitter: 0,
     x: 200,
-    y: 40,     // SPAWN ABOVE HERO
+    y: 140,   // visible spawn
     state: "idle"
   },
   midnight: {
@@ -37,7 +36,7 @@ const cats = {
     wanderCooldown: 0,
     jitter: 0,
     x: 400,
-    y: 40,     // SPAWN ABOVE HERO
+    y: 140,   // visible spawn
     state: "idle"
   }
 };
@@ -92,4 +91,205 @@ function setSpriteFrame(cat, row, frame) {
 }
 
 /* ---------- NATURAL WANDER LOGIC ---------- */
-function pickNewWanderTarget(cat
+function pickNewWanderTarget(cat) {
+  const padding = 160;
+
+  cat.targetX = Math.random() * (window.innerWidth - padding * 2) + padding;
+  cat.targetY = Math.random() * (window.innerHeight - padding * 2) + padding;
+
+  cat.jitter = (Math.random() - 0.5) * 40;
+  cat.wanderCooldown = 0.8 + Math.random() * 1.4;
+}
+
+/* ---------- MOVEMENT ---------- */
+function moveCat(catKey, dt) {
+  const cat = cats[catKey];
+
+  let targetX, targetY, speed;
+
+  if (chaseMode) {
+    if (Math.random() < 0.85) {
+      targetX = mousePos.x;
+      targetY = mousePos.y;
+    } else {
+      targetX = mousePos.x + (Math.random() - 0.5) * 300;
+      targetY = mousePos.y + (Math.random() - 0.5) * 300;
+    }
+    speed = cat.chaseSpeed;
+  }
+
+  else if (randomChase) {
+    targetX = mousePos.x;
+    targetY = mousePos.y;
+    speed = cat.chaseSpeed;
+  }
+
+  else {
+    speed = cat.speed;
+
+    cat.wanderTimer += dt;
+
+    if (!cat.targetX || cat.wanderTimer > cat.wanderCooldown) {
+      pickNewWanderTarget(cat);
+      cat.wanderTimer = 0;
+    }
+
+    targetX = cat.targetX + cat.jitter;
+    targetY = cat.targetY + cat.jitter;
+  }
+
+  const dx = targetX - cat.x;
+  const dy = targetY - cat.y;
+  const dist = Math.hypot(dx, dy);
+
+  if (dist > 4) {
+    cat.x += (dx / dist) * speed * dt;
+    cat.y += (dy / dist) * speed * dt;
+    cat.state = "walk";
+  } else {
+    cat.state = "idle";
+  }
+
+  /* ---------- FIXED SCREEN BOUNDS ---------- */
+  const topBound = 60;                         // calibrated
+  const bottomBound = window.innerHeight - 160;
+  const leftBound = 0;
+  const rightBound = window.innerWidth - 64;
+
+  cat.x = Math.max(leftBound, Math.min(rightBound, cat.x));
+  cat.y = Math.max(topBound, Math.min(bottomBound, cat.y));
+
+  /* ---------- APPLY VISUAL OFFSET ---------- */
+  cat.el.style.transform =
+    `translate(${cat.x}px, ${cat.y + visualOffsetY}px) scaleX(${dx < 0 ? -1 : 1})`;
+}
+
+/* ---------- COLLISION ---------- */
+function handleCollision() {
+  const a = cats.luna;
+  const b = cats.midnight;
+
+  const ra = a.el.getBoundingClientRect();
+  const rb = b.el.getBoundingClientRect();
+
+  const overlap = !(
+    ra.right < rb.left ||
+    ra.left > rb.right ||
+    ra.bottom < rb.top ||
+    ra.top > rb.bottom
+  );
+
+  if (overlap) {
+    const dx = b.x - a.x || 1;
+    const dy = b.y - a.y || 1;
+    const dist = Math.hypot(dx, dy);
+
+    a.x -= (dx / dist) * 10;
+    a.y -= (dy / dist) * 10;
+    b.x += (dx / dist) * 10;
+    b.y += (dy / dist) * 10;
+
+    a.state = "jump";
+    b.state = "jump";
+    playMeow();
+  }
+}
+
+/* ---------- PETTING ---------- */
+function setupPet(catKey) {
+  const cat = cats[catKey];
+  cat.el.addEventListener("mouseenter", () => {
+    cat.state = "pet";
+    startPurr();
+  });
+  cat.el.addEventListener("mouseleave", () => {
+    cat.state = "idle";
+  });
+}
+
+setupPet("luna");
+setupPet("midnight");
+
+/* ---------- YARN MODE ---------- */
+yarn.addEventListener("click", () => {
+  chaseMode = !chaseMode;
+
+  if (chaseMode) {
+    document.body.style.cursor = "url('assets/sprites/yarnball.png') 0 0, auto";
+    yarn.classList.add("ff-yarn-active");
+    playMeow();
+    stopPurr();
+  } else {
+    document.body.style.cursor = "default";
+    yarn.classList.remove("ff-yarn-active");
+    startPurr();
+  }
+});
+
+/* Midnight zoomies */
+setInterval(() => {
+  if (chaseMode) return;
+  if (Math.random() < 0.25) {
+    randomChase = true;
+    playMeow();
+    setTimeout(() => { randomChase = false; }, 2000);
+  }
+}, 6000);
+
+/* ---------- SOUND ---------- */
+soundToggle.addEventListener("click", () => {
+  soundEnabled = !soundEnabled;
+  if (!soundEnabled) {
+    stopPurr();
+    soundToggle.textContent = "🔇 Sound Off";
+  } else {
+    soundToggle.textContent = "🔊 Sound On";
+    startPurr();
+  }
+});
+
+/* ---------- NIGHT MODE ---------- */
+nightToggle.addEventListener("click", () => {
+  nightMode = !nightMode;
+  document.body.classList.toggle("ff-night", nightMode);
+  nightToggle.textContent = nightMode ? "🌙 Night On" : "🌙 Night Off";
+});
+
+/* ---------- MOUSE TRACKING ---------- */
+document.addEventListener("mousemove", (e) => {
+  mousePos.x = e.clientX;
+  mousePos.y = e.clientY;
+});
+
+/* ---------- MAIN LOOP ---------- */
+let lastTime = performance.now();
+
+function loop(now) {
+  const dt = (now - lastTime) / 1000;
+  lastTime = now;
+
+  moveCat("luna", dt);
+  moveCat("midnight", dt);
+  handleCollision();
+
+  frameTimer += dt;
+  if (frameTimer >= frameInterval) {
+    frameTimer = 0;
+    animFrame = (animFrame + 1) % frameCount;
+  }
+
+  Object.values(cats).forEach(cat => {
+    let row = cat.rowIdle;
+    if (cat.state === "walk") row = cat.rowWalk;
+    if (cat.state === "jump") row = cat.rowJump;
+    if (cat.state === "pet")  row = cat.rowPet;
+    setSpriteFrame(cat, row, animFrame);
+  });
+
+  requestAnimationFrame(loop);
+}
+
+startPurr();
+requestAnimationFrame(loop);
+
+}); // end DOMContentLoaded
