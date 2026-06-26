@@ -384,14 +384,15 @@ body::after {
 
 .ff-art-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 22px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 18px;
   max-width: 1080px;
   margin: 0 auto;
 }
 
 .ff-art-item {
   display: block;
+  position: relative;
   border-radius: var(--radius-lg);
   overflow: hidden;
   border: 1px solid var(--border-soft);
@@ -412,7 +413,7 @@ body::after {
   width: 100%;
   height: auto;
   display: block;
-  aspect-ratio: 16 / 10.5;
+  aspect-ratio: 16 / 10;
   object-fit: cover;
   transition: transform 0.4s ease;
   image-rendering: crisp-edges;
@@ -420,6 +421,20 @@ body::after {
 
 .ff-art-item:hover img {
   transform: scale(1.04);
+}
+
+/* Portfolio card overlay for nicer labels */
+.ff-art-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+  color: white;
+  padding: 12px;
+  text-align: center;
+  font-size: 0.9rem;
+  font-weight: 500;
 }
 
 /* Responsive tweaks */
