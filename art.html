@@ -29,7 +29,7 @@
     <p>Digital artifacts, onchain experiments, generative pieces, and explorations in curiosity.</p>
 
     <div class="ff-art-grid">
-      <!-- Bitcoin / Ordinals Portfolio -->
+      <!-- Your added links + portfolios -->
       <a href="https://ord.net/profile/wallet/bc1pe7645efm6jsu59vpa3kq2stjygef27sgyrqx93688gm4xzem6vzq30x42w" class="ff-art-item" target="_blank" rel="noopener">
         <img src="assets/art/placeholder1.png" alt="Bitcoin Ordinals Art — click for profile on ord.net">
         <div class="ff-art-overlay">
@@ -37,56 +37,22 @@
         </div>
       </a>
 
-      <!-- OpenSea Portfolio -->
       <a href="https://opensea.io/finderfound" class="ff-art-item" target="_blank" rel="noopener">
         <img src="assets/art/placeholder2.png" alt="OpenSea Collection — click for profile">
         <div class="ff-art-overlay">
           <span>OpenSea</span>
         </div>
       </a>
-      
-      <!-- Instagram profile -->
+
       <a href="https://instagram.com/finderfound" class="ff-art-item" target="_blank" rel="noopener">
         <img src="assets/art/placeholder3.png" alt="More Artwork — click for Instagram">
         <div class="ff-art-overlay">
-          <span>Instagram</span>
-        </div>
-      </a>
-      
-      <!-- BlockForge parcel link -->
-      <a href="https://ordinals.com/content/597b18ae5bfad4376c948f4df9ba07adf99f0b257f88ea0ac86dfd3c59c458ddi0?bh=a0460a5f15433631489b7b27e26a2202e737d57325d4e9651c5023951d34afb8i350" class="ff-art-item" target="_blank" rel="noopener">
-        <img src="assets/art/placeholder4.png" alt="More Artwork — click for BlockForge">
-        <div class="ff-art-overlay">
           <span>More Collections</span>
-          <span>BlockForge</span>
-        </div>
-      </a>
-      
-      <!-- Coffee Art Link -->
-      <a href="https://opensea.io/collection/coffee-art-for-everyone-finderfound-s-art-forever" class="ff-art-item" target="_blank" rel="noopener">
-        <img src="assets/art/placeholder5.png" alt="More Artwork — click for Coffee Art">
-        <div class="ff-art-overlay">
-          <span>Coffee Art by Finderfound</span>
-        </div>
-      </a>
-      
-<!-- Bitcoin marketplace / collections (smaller images) -->
-       <a href="https://ord-dropz.xyz/" class="ff-art-item" target="_blank" rel="noopener">
-        <img src="assets/art/placeholder6.png" alt="More Artwork — click for Bitcoin Marketplace">
-        <div class="ff-art-overlay">
-          <span>Ord-Dropz Bitcoin Marketplace</span>
         </div>
       </a>
     </div>
 
     <p class="ff-art-note">More collections and uploaded artwork coming soon (with modals for full views).</p>
-
-    <!-- Runestone Simulator -->
-    <div style="text-align: center; margin-top: 40px;">
-      <button onclick="openRunestoneModal()" class="ff-btn ff-primary" style="font-size: 1.1rem; padding: 14px 32px;">
-        Runestone Simulator
-      </button>
-    </div>
   </section>
 
   <!-- Interactive cats + controls (on high-z layer) -->
@@ -100,144 +66,6 @@
     <img id="yarnBall" class="ff-yarn" src="assets/sprites/yarnball.png" alt="Yarn ball — click to toggle chase mode">
   </div>
 
-  <!-- Three.js CDN for Runestone Viewer -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
-
-  <style>
-    .runestone-modal {
-      display: none;
-      position: fixed;
-      z-index: 100000;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.92);
-      align-items: center;
-      justify-content: center;
-    }
-    .modal-content {
-      background: #111;
-      padding: 20px;
-      border-radius: 16px;
-      max-width: 90%;
-      max-height: 90%;
-      position: relative;
-      box-shadow: 0 0 60px rgba(77, 242, 194, 0.3);
-    }
-    .close-modal {
-      position: absolute;
-      top: 12px;
-      right: 20px;
-      font-size: 32px;
-      cursor: pointer;
-      color: #aaa;
-    }
-    .close-modal:hover { color: white; }
-  </style>
-
-  <script>
-    let runestoneScene, runestoneCamera, runestoneRenderer, runestoneMesh;
-
-    function openRunestoneModal() {
-      const modal = document.getElementById('runestoneModal');
-      modal.style.display = 'flex';
-
-      // Init Three.js if not already
-      if (!runestoneScene) initRunestoneViewer();
-    }
-
-    function closeRunestoneModal() {
-      const modal = document.getElementById('runestoneModal');
-      modal.style.display = 'none';
-    }
-
-    function initRunestoneViewer() {
-      const container = document.getElementById('three-container');
-
-      runestoneScene = new THREE.Scene();
-      runestoneCamera = new THREE.PerspectiveCamera(50, container.clientWidth / container.clientHeight, 0.1, 1000);
-      runestoneRenderer = new THREE.WebGLRenderer({ antialias: true });
-      runestoneRenderer.setSize(container.clientWidth, container.clientHeight);
-      runestoneRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-      container.appendChild(runestoneRenderer.domElement);
-
-      // Lighting
-      const ambient = new THREE.AmbientLight(0xaaaaaa, 0.6);
-      runestoneScene.add(ambient);
-      const point = new THREE.PointLight(0xffffff, 1.2, 100);
-      point.position.set(5, 8, 10);
-      runestoneScene.add(point);
-
-      // Placeholder rotating cube (replace with real GLTF once uploaded)
-      const geometry = new THREE.BoxGeometry(2, 2, 2);
-      const material = new THREE.MeshPhongMaterial({ 
-        color: 0x4df2c2, 
-        emissive: 0x112233,
-        shininess: 30 
-      });
-      runestoneMesh = new THREE.Mesh(geometry, material);
-      runestoneScene.add(runestoneMesh);
-
-      runestoneCamera.position.z = 5;
-
-      // Mouse orbit
-      let isDragging = false;
-      let previousMouseX = 0;
-      let rotationSpeed = 0;
-
-      container.addEventListener('mousedown', (e) => {
-        isDragging = true;
-        previousMouseX = e.clientX;
-      });
-
-      window.addEventListener('mouseup', () => isDragging = false);
-      window.addEventListener('mousemove', (e) => {
-        if (!isDragging) return;
-        const delta = (e.clientX - previousMouseX) * 0.008;
-        runestoneMesh.rotation.y += delta;
-        previousMouseX = e.clientX;
-      });
-
-      // Click to pulse (scale + color flash)
-      container.addEventListener('click', () => {
-        if (runestoneMesh) {
-          runestoneMesh.scale.set(1.15, 1.15, 1.15);
-          setTimeout(() => {
-            if (runestoneMesh) runestoneMesh.scale.set(1, 1, 1);
-          }, 180);
-          // Flash emissive
-          if (runestoneMesh.material.emissive) {
-            const orig = runestoneMesh.material.emissive.getHex();
-            runestoneMesh.material.emissive.setHex(0xffffff);
-            setTimeout(() => runestoneMesh.material.emissive.setHex(orig), 220);
-          }
-        }
-      });
-
-      // Auto spin
-      let autoSpin = true;
-      function animate() {
-        requestAnimationFrame(animate);
-        if (autoSpin && runestoneMesh) runestoneMesh.rotation.y += 0.008;
-        runestoneRenderer.render(runestoneScene, runestoneCamera);
-      }
-      animate();
-
-      // Resize handler
-      window.addEventListener('resize', () => {
-        if (runestoneRenderer && runestoneCamera) {
-          runestoneCamera.aspect = container.clientWidth / container.clientHeight;
-          runestoneCamera.updateProjectionMatrix();
-          runestoneRenderer.setSize(container.clientWidth, container.clientHeight);
-        }
-      });
-
-      // Click anywhere on modal to toggle auto-spin
-      document.getElementById('runestoneModal').addEventListener('click', (e) => {
-        if (e.target.id === 'runestoneModal') autoSpin = !autoSpin;
-      });
-    }
-  </script>
+  <script src="cats.js"></script>
 </body>
 </html>
